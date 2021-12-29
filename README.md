@@ -1,4 +1,4 @@
-# Time Series Classification using Matrix Profiles
+# Time Series Classification
 
 The goal of this project is to demonstrate how matrix profiles can be used to classify activity.  The context for this exploration will be the game lunar lander.  In this game, a player attempts to navigate and safely land a simulated lunar lander.  For the purposes of this experiment, the lunar lander will either be controlled by a person or by an autonomous agent.  Landings can further be classified as either successful or unsuccessful.  As a result, we will have a 2x2 classification problem.
 
