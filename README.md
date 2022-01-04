@@ -8,11 +8,52 @@ This project will conclude with an evaluation of the accuracy of different model
 
 Project Steps:
 
-1.  Get the pygame lunar lander code to work and record the (x,y) location on landing.
-2.  Extend the pygame lunar lander code to also look at 1 second after impact?
-3.  Get the pygame lunar lander to save the timeseries data for the lander code.
-4.  Create a ML model (reinforcement learning) to learn to train the lander.
+1.  Get the opengym lunar lander code to work 
+2.  Get the keyboard_agent to work.
+3.  Set up the recording of the (x,y) timestamp location on landing.
+4.  Create a ML agent (reinforcement learning) to learn to train the lander.
 5.  Compile a dataset that has both user and reinforcement learning examples of landing the lander
 6.  Develop models that evaluate the landing.  (Matrix profile, xgboost, svm? other?)
 7.  Write up results and create blog post.
+
+Setup:
+
+## Install swig:
+
+sudo apt install swig
+
+## Install pybox2d
+pip install box2d-py
+
+## Install openai gym:
+
+pip install gym[Box2D]
+
+# Run lunar langer with random agent.
+
+<code>
+import gym
+
+env = gym.make('LunarLander-v2')
+env.reset()
+for _ in range(1000):
+    env.render()
+    env.step(env.action_space.sample()) # take a random action
+</code>
+
+To run with keyboard, use the keyboard_agent.py app in the examples/agents folder.  Then do:
+
+<code>
+python keyboard_agent.py
+</code>
+
+I followed these steps to install GPU nvidia cudnn/cuda stuff:
+
+https://medium.com/analytics-vidhya/install-cuda-11-2-cudnn-8-1-0-and-python-3-9-on-rtx3090-for-deep-learning-fcf96c95f7a1
+
+Train a reinforcement model with
+
+<code>
+python reinforce.py
+</code>
 
