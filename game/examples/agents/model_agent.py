@@ -3,6 +3,8 @@ import torch
 from policy import Policy
 from torch.autograd import Variable
 from torch.distributions import Categorical
+from model2_agent import Agent
+
 
 class ModelAgent:
 
@@ -23,14 +25,16 @@ class ModelAgent:
         self.policy.load_model("./models/network2.pth")
         print("Model has been loaded.")
         
-    def land(self):
+    def land(self, filename=None):
         state = self.env.reset()
         steps = 0
         rewards = []
+        states = []
         log_probs = []
         is_terminal = False
         
         while is_terminal==False:
+            states.append(state)
             print(state)
             self.env.render()
             action, log_prob = self.select_action(state)
@@ -38,7 +42,8 @@ class ModelAgent:
             state, reward, is_terminal, _ = self.env.step(action)
             log_probs.append(log_prob)
             rewards.append(reward)
-            steps +=1            
+            steps +=1          
+
         print("Landed!")
 
 #  Models stuff.
@@ -53,5 +58,7 @@ class ModelAgent:
 
 
 if __name__ == "__main__":
-    ma = ModelAgent()
-    ma.land()
+    for i in range(100):
+        ma = ModelAgent()
+        ma.land("mission_{}".format(i))
+

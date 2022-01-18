@@ -18,7 +18,7 @@ class Reinforce2:
         print('State shape: ', self.env.observation_space.shape)
         print('Number of actions: ', self.env.action_space.n)
 
-    def dqn(self, n_episodes=5000, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995):
+    def dqn(self, n_episodes=300, max_t=1000, eps_start=1.0, eps_end=0.01, eps_decay=0.995):
         scores = []                        # list containing scores from each episode
         scores_window = deque(maxlen=100)  # last 100 scores
         eps = eps_start                    # initialize epsilon
@@ -41,7 +41,7 @@ class Reinforce2:
                 print('\rEpisode {}\tAverage Score: {:.2f}'.format(i_episode, np.mean(scores_window)))
             if np.mean(scores_window)>=500.0:
                 print('\nEnvironment solved in {:d} episodes!\tAverage Score: {:.2f}'.format(i_episode-100, np.mean(scores_window)))
-                torch.save(self.agent.network.state_dict(), 'models/network2.pth')
+                torch.save(self.agent.network.state_dict(), 'models/network2_300.pth')
                 #torch.save(self.agent, 'dqn_network.pth')
                 break
         return scores

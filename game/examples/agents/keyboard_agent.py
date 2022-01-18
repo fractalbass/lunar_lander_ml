@@ -23,6 +23,7 @@ def key_press(key, mod):
     if key==0xff0d: human_wants_restart = True
     if key==32: human_sets_pause = not human_sets_pause
     a = int( key - ord('0') )
+    print(a)
     if a <= 0 or a >= ACTIONS: return
     human_agent_action = a
 
@@ -38,12 +39,13 @@ env.render()
 env.viewer.window.on_key_press = key_press
 env.viewer.window.on_key_release = key_release
 
-def rollout(env):
+def rollout(env, i):
     global human_agent_action, human_wants_restart, human_sets_pause
     human_wants_restart = False
     obser = env.reset()
     #print("ENV Scale is: {}".format(SCALE))
     skip = 0
+    states = []
     for t in range(ROLLOUT_TIME):
         if not skip:
             #print("taking action {}".format(human_agent_action))
@@ -52,18 +54,28 @@ def rollout(env):
         else:
             skip -= 1
 
-        obser, r, done, info = env.step(a)
+        state, r, done, info = env.step(a)
+        states.append(state)
         env.render()
         if done: break
         if human_wants_restart: break
         while human_sets_pause:
             env.render()
             import time
-            time.sleep(0.1)
+            time.sleep(1.5)
 
+    filename = "./human_missions/mission_{}_human.csv".format(i)
+    with open(filename, "w") as fn:
+        for state in states:
+            ln = ",".join([str(obs) for obs in state])
+            fn.writelines("{}\n".format(ln))  
+        
 print("ACTIONS={}".format(ACTIONS))
 print("Press keys 1 2 3 ... to take actions 1 2 3 ...")
 print("No keys pressed is taking action 0")
 
-while 1:
-    rollout(env)
+i=0
+
+for i in range(100):
+    rollout(env, i)
+    

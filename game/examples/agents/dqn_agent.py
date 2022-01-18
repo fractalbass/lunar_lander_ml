@@ -1,12 +1,3 @@
-"""
-DQN Agent for Vector Observation Learning
-
-Example Developed By:
-Michael Richardson, 2018
-Project for Udacity Danaodgree in Deep Reinforcement Learning (DRL)
-Code expanded and adapted from code examples provided by Udacity DRL Team, 2018.
-"""
-
 # Import Required Packages
 import torch
 import torch.nn.functional as F
