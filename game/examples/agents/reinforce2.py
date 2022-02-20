@@ -11,7 +11,9 @@ class Reinforce2:
 
     env = None
     agent = Agent(state_size=8, action_size=4, seed=3)
-    
+    train_level = 300
+
+
     def __init__(self):
         self.env = gym.make('LunarLander-v2')
         self.env.seed(0)
@@ -39,10 +41,9 @@ class Reinforce2:
             print('\rEpisode {}\tAverage Score: {:.2f}'.format(i_episode, np.mean(scores_window)), end="")
             if i_episode % 100 == 0:
                 print('\rEpisode {}\tAverage Score: {:.2f}'.format(i_episode, np.mean(scores_window)))
-            if np.mean(scores_window)>=500.0:
+            if np.mean(scores_window)>=self.train_level:
                 print('\nEnvironment solved in {:d} episodes!\tAverage Score: {:.2f}'.format(i_episode-100, np.mean(scores_window)))
-                torch.save(self.agent.network.state_dict(), 'models/network2_300.pth')
-                #torch.save(self.agent, 'dqn_network.pth')
+                torch.save(self.agent.network.state_dict(), 'models/network2_{}.pth'.format(self.train_level))
                 break
         return scores
 

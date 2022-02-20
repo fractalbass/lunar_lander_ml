@@ -3,16 +3,21 @@ import torch
 from dqn_agent import Agent
 from torch.autograd import Variable
 from torch.distributions import Categorical
+import os
 
 class Model2Agent:
     agent = None
     env = None
+    train_level = 300
 
     def __init__(self):
         self.agent = Agent(state_size=8, action_size=4, seed=3)
-        self.agent.network.load_state_dict(torch.load("./models/network2_500.pth"))
-
+        self.agent.network.load_state_dict(torch.load("./models/network2_{}.pth".format(self.train_level)))
         self.env = gym.make('LunarLander-v2')
+
+    def check_dir(self, dirname):
+        if os.path.isdir(dirname) is False:
+            os.mkdir(dirname)
 
     def land(self, mission=None):
         state = self.env.reset()
@@ -33,7 +38,9 @@ class Model2Agent:
             steps +=1   
 
         if mission!=None:
-            filename = "./data/computer_missions_500/mission_{}_computer.csv".format(mission)
+            dirname = "../data/computer_missions_{}".format(self.train_level)
+            self.check_dir(dirname)
+            filename = "{}/mission_{}_computer.csv".format(dirname, mission)
             with open(filename, "w") as fn:
                 for state in states:
                     ln = ",".join([str(obs) for obs in state])
@@ -52,6 +59,6 @@ class Model2Agent:
 
 
 if __name__ == "__main__":
-    for i in range(1000):
+    for i in range(10):
         ma = Model2Agent()
         ma.land(i)
